@@ -1,0 +1,32 @@
+What is HTTP?
+HTTP is Hyper Text Transfer Protocol, and is a standardized method, or "protocol" by which computers on a network (specifically, computers on the network known as the World Wide Web) communicate - client (you/me) to server.
+
+What is a URL? 
+A URL (Uniform Resource Locator) is the "address" by which we find websites, which operate in a series of GET requests to a server(s).
+
+What is DNS?
+DNS, or Domain Name System, is a method by which computers translate the URL into an IP address so that we as humans can communicate via out computers with the network.
+
+What is a query string?
+A query string is the final element(s) of a URL and represents any specific search terms in a GET request: a key/value pair preceded by ?.
+
+What are two HTTP verbs and how are they different?
+GET and POST! GET retrieves information from the server without altering it, whereas POST "posts" something (changes something on the server.)
+
+What is an HTTP request?
+An HTTP request is what happens when we hit "enter" on the address bar and the computer sends out communication. The sent communciation (following HTTP protocol) is a request for a server to respond with whathever we are looking for - often but not always a website.
+
+What is an HTTP response?
+This is the server communicating back to the client (me) following the HTTP protocol.
+
+What is an HTTP header? Give a couple examples of request and response headers you have seen.
+And HTTP header allows the client (user) computer to include more information in a request. A Request JHeader might be Host or User-Agent, Cookie, and a Response Header might be Content-Type or Set Cookie.
+
+What are the processes that happen when you type “http://somesite.com/some/page.html” into a browser?
+The Browser utilizes DNS to translate the URL into an IP address.
+The request is checked internally (on the client computer), then sent to a router, then to other computers, and when it reaches a destination computer, that computer may in turn send the request to a database. The server computer then returns what response is available - the HTTP responses above. The Browser then builds a DOM from the HTML in the response and every element in the HTML has it's own subsequent HTTP request.
+
+Part 2:
+1. curl https://icanhazdadjoke.com/search\?term\=dog
+2. dig https://icanhazdadjoke.com +short returns: 23.221.222.250
+3. I'm using live server for now, I'll do the Python when we get to it in the course.
