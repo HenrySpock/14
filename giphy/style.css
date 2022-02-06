@@ -1,0 +1,41 @@
+body {
+    background: linear-gradient(90deg, rgba(148,227,254,1) 0%, rgba(30,182,233,1) 10%, rgba(76,136,201,1) 25%, rgba(79,119,185,1) 43%, rgba(79,119,185,1) 57%, rgba(76,136,201,1) 75%, rgba(24,188,238,1) 90%, rgba(148,227,254,1) 100%);
+}
+
+.input {
+    width: 206px;
+    height: 25px;
+    display: block;
+    margin: auto; 
+}
+
+::placeholder {
+    text-align: center;
+  }
+  
+  input:placeholder-shown {
+    text-align: left;
+  }
+
+.button-div {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.button {
+    width: 100px;
+    height: 25px;
+    font-size: 12px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.giphy-embed {
+    margin: 10px;
+}
+
+#newGif {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
