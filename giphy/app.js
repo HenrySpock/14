@@ -31,6 +31,7 @@ async function getGifs(searchKey) {
     let gifIndex = (Math.floor(Math.random() * (res.data.data.length + 1)));
     // console.log(gifIndex);
     let resGif = (res.data.data[gifIndex].url);
+
     let embedURL = (res.data.data[gifIndex].embed_url);
     // console.log(resGif + embedURL);
     let parent = document.getElementById('newGif');
@@ -39,7 +40,7 @@ async function getGifs(searchKey) {
     let addGif = `<iframe src=${embedURL} height="300" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><a href=${resGif}></a>`;
     // document.getElementById("newGif").innerHTML = addGif;
     child.innerHTML = addGif;
-    parent.appendChild(child);
+    parent.appendChild(child); 
 }
 
 function clear(){
@@ -48,14 +49,4 @@ function clear(){
 
  
 
-async function getGifs(searchKey) {
-    let res = await axios.get(`http://api.giphy.com/v1/gifs/search?q=${searchKey}&api_key=oTSnkrNo0T11r3cs9HmkvZyTP9ND87IZ`); 
-    let gifIndex = (Math.floor(Math.random() * (res.data.data.length + 1))); 
-    let resGif = (res.data.data[gifIndex].url);
-    let embedURL = (res.data.data[gifIndex].embed_url);  
-    let parent = document.getElementById('newGif');
-    let child = document.createElement('span'); 
-    let addGif = `<iframe src=${embedURL} height="300" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><a href=${resGif}></a>`;
-    child.innerHTML = addGif;
-    parent.appendChild(child);
-}
+ 
