@@ -1,7 +1,9 @@
+// test curls 
+// curl https://www.geeksforgeeks.org 
+
 /** Given a query string, return array of matching shows:
  *     { id, name, summary, episodesUrl }
  */
-
 
 /** Search Shows
  *    - given a search term, search for tv shows that
@@ -17,46 +19,42 @@
         image: <an image from the show data, or a default imege if no image exists, (image isn't needed until later)>
       }
  */
-async function searchShows(query) {
-  // TODO: Make an ajax request to the searchShows api.  Remove
-  // hard coded data.
-
-  return [
-    {
-      id: 1767,
-      name: "The Bletchley Circle",
-      summary: "<p><b>The Bletchley Circle</b> follows the journey of four ordinary women with extraordinary skills that helped to end World War II.</p><p>Set in 1952, Susan, Millie, Lucy and Jean have returned to their normal lives, modestly setting aside the part they played in producing crucial intelligence, which helped the Allies to victory and shortened the war. When Susan discovers a hidden code behind an unsolved murder she is met by skepticism from the police. She quickly realises she can only begin to crack the murders and bring the culprit to justice with her former friends.</p>",
-      image: "http://static.tvmaze.com/uploads/images/medium_portrait/147/369403.jpg"
+async function searchShows(query) {   // TODO: Make an ajax request to the searchShows api.  Remove   // hard coded data.
+  let res = await axios.get(`https://api.tvmaze.com/search/shows?q=${query}`);  //console.log(res.data);
+  let showPop = [];   
+    for (id in res.data){
+      if (res.data[id].show.image === null || res.data[id].show.image.medium === undefined){
+        res.data[id].show.image = {medium: 'https://tinyurl.com/tv-missing'}
+      } 
+      showPop.push(res.data[id].show)
     }
-  ]
+  return showPop;
 }
-
-
 
 /** Populate shows list:
  *     - given list of shows, add shows to DOM
  */
 
-function populateShows(shows) {
+function populateShows(shows) { //console.log(shows);
   const $showsList = $("#shows-list");
   $showsList.empty();
 
-  for (let show of shows) {
+  for (let show of shows) { 
     let $item = $(
       `<div class="col-md-6 col-lg-3 Show" data-show-id="${show.id}">
          <div class="card" data-show-id="${show.id}">
            <div class="card-body">
              <h5 class="card-title">${show.name}</h5>
-             <p class="card-text">${show.summary}</p>
+             <p class="card-text">${show.summary}</p>             
+             <img class="card-img-top" src="${show.image.medium}">
+             <button data-button-id="${show.id * 2}" class="button" id="button">Episodes</button>
            </div>
          </div>
        </div>
-      `);
-
-    $showsList.append($item);
+      `);      
+    $showsList.append($item); 
   }
 }
-
 
 /** Handle search form submission:
  *    - hide episodes area
@@ -66,25 +64,45 @@ function populateShows(shows) {
 $("#search-form").on("submit", async function handleSearch (evt) {
   evt.preventDefault();
 
-  let query = $("#search-query").val();
+  let query = $("#search-query").val(); //console.log(query);
   if (!query) return;
-
   $("#episodes-area").hide();
 
-  let shows = await searchShows(query);
-
-  populateShows(shows);
+  let shows = await searchShows(query); //console.log(shows);
+  
+  populateShows(shows)
 });
 
+$(document).on("click", "#button", function(){
+  document.getElementById("episodes-list").innerText = ""; //console.log("Clicked");
+  const currButt = this.dataset.buttonId; //console.log(currButt); 
+  getEpisodes(currButt)
+}); 
 
 /** Given a show ID, return list of episodes:
  *      { id, name, season, number }
  */
 
-async function getEpisodes(id) {
-  // TODO: get episodes from tvmaze
-  //       you can get this by making GET request to
-  //       http://api.tvmaze.com/shows/SHOW-ID-HERE/episodes
-
-  // TODO: return array-of-episode-info, as described in docstring above
+async function getEpisodes(id) { //console.log(id);
+  try {
+  let res = await axios.get(`http://api.tvmaze.com/shows/${id}/episodes`);
+  document.getElementById("episodes-area").setAttribute("style", "block");
+  let parent = document.getElementById("episodes-list");
+  parent.setAttribute('style', 'block'); //  console.log(parent); console.log(res.data); console.log(res.data[0].season); console.log(res.data[0].number);
+  for (id in res.data){
+    let child = document.createElement("li")
+    child.innerText = ("season " + res.data[id].season + ", number " + res.data[id].number);
+    child.innerText = (`season ${res.data[id].season}, number ${res.data[id].number}`);
+    parent.appendChild(child);
+  } 
+} catch(err) {
+  document.getElementById("episodes-area").setAttribute("style", "block");
+  let parent = document.getElementById("episodes-list");
+  parent.setAttribute('style', 'block'); 
+  console.log("nerp");
+  let child = document.createElement("p")
+  child.innerText = "No Episode List Available"
+  parent.appendChild(child);
+  }
 }
+ 
